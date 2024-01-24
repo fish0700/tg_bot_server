@@ -1,9 +1,9 @@
-const strartBot = require('./bot');
+const {startBot} = require('./bot');
 const startServer = require('./server');
 
 
 (() => {
-    strartBot();
+    startBot();
     startServer();
 }
 )()

@@ -9,12 +9,15 @@ const groupID = process.env.GROUP_ID
 const startBot = async () => {
     bot.onText(/\/start/, (msg) => {
         const chatId = msg.chat.id;
-        bot.sendMessage(chatId, 'Привет! Я готов взаимодействовать с этой группой!');
-        bot.sendMessage(groupID, `group id is ${groupID}`);
+        bot.sendMessage(chatId, 'Готов к работе!');
         
       });
     
       console.log('Bot was started');
 }
 
-module.exports = startBot;
+module.exports = {
+  startBot,
+  bot,
+  groupID
+};
