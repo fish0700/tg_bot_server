@@ -1,7 +1,9 @@
-const path = require('path');
-require('dotenv').config({path: path.resolve(__dirname, './config/.env')});
+const strartBot = require('./bot');
+const startServer = require('./server');
 
-const TelegramAPI = require('node-telegram-bot-api');
 
-const bot = new TelegramAPI(process.env.TOKEN);
-
+(() => {
+    strartBot();
+    startServer();
+}
+)()
