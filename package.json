@@ -1,0 +1,23 @@
+{
+  "name": "tg_bot_request",
+  "version": "1.0.0",
+  "description": "test version",
+  "main": "index.js",
+  "type": "commonjs",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon index.js",
+    "start": "node index.js"
+  },
+  "keywords": [
+    "tg",
+    "request"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.4.0",
+    "node-telegram-bot-api": "^0.64.0",
+    "nodemon": "^3.0.3"
+  }
+}
