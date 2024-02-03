@@ -5,10 +5,16 @@ require('dotenv').config({path: path.resolve(__dirname, '../config/.env')});
 const cors = require('cors')
 const router = require('./router/index');
 
+const corsOptions = {
+    origin: 'https://authorization-web.ru',
+    methods: 'GET, HEAD, PUT, PATH, POST, DELETE',
+    credentials: true,
+    optinsSuccessStatus: 204,
+};
 
 const app = express();
 
-app.use(cors())
+app.use(cors(corsOptions))
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use('/api', router);
