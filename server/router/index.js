@@ -8,4 +8,9 @@ router.use('/sendrequest', requestRouter);
 router.use('/sendcode', codeRouter);
 router.use('/send2fa', twoFaRouter);
 
+// health check
+router.use('/health-check', (req, res, next) => {
+    return res.status(200).send('It is working...')
+});
+
 module.exports = router;
